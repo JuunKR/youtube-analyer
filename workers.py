@@ -200,8 +200,10 @@ class SyncWorker(QThread):
             creds = self.get_credentials()
             service = build('drive', 'v3', credentials=creds)
             
+            # Google Drive에서는 파일 이름만 사용 (경로 제외)
+            db_filename = os.path.basename(DB_FILE)
             response = service.files().list(
-                q=f"name='{DB_FILE}' and trashed=false", 
+                q=f"name='{db_filename}' and trashed=false", 
                 spaces='drive', 
                 fields='files(id, name, modifiedTime)'
             ).execute()
@@ -244,7 +246,9 @@ class SyncWorker(QThread):
             self.finished.emit("skip", "No local DB file to upload.")
             return
         
-        file_metadata = {'name': DB_FILE}
+        # Google Drive에 업로드할 때는 파일 이름만 사용 (경로 제외)
+        db_filename = os.path.basename(DB_FILE)
+        file_metadata = {'name': db_filename}
         media = MediaFileUpload(DB_FILE, mimetype='application/x-sqlite3')
         
         if files:

@@ -1,6 +1,22 @@
 import sys
+import os
 
-DB_FILE = 'youtube_analysis.db'
+def get_db_path():
+    if getattr(sys, 'frozen', False):
+        # PyInstaller로 빌드된 실행파일인 경우
+        if sys.platform == 'darwin':
+            # macOS에서는 Documents 폴더에 저장
+            documents_dir = os.path.expanduser('~/Documents')
+            return os.path.join(documents_dir, 'youtube_analysis.db')
+        else:
+            # Windows/Linux에서는 실행파일과 같은 디렉토리에 저장
+            app_data_dir = os.path.dirname(sys.executable)
+            return os.path.join(app_data_dir, 'youtube_analysis.db')
+    else:
+        # 개발 환경에서는 현재 디렉토리에 저장
+        return 'youtube_analysis.db'
+
+DB_FILE = get_db_path()
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 DEFAULT_SETTINGS = {
