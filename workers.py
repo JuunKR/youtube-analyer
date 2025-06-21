@@ -225,7 +225,7 @@ class SyncWorker(QThread):
 
     def _handle_download(self, service, files):
         if not files:
-            self.finished.emit("skip", "No DB file found in cloud. Starting with local DB.")
+            self._handle_upload(service, files)
             return
         
         cloud_file = files[0]
@@ -245,7 +245,7 @@ class SyncWorker(QThread):
         self.finished.emit("success", "DB file successfully downloaded from cloud.")
 
     def _handle_upload(self, service, files):
-        # Google Drive에 업로드할 때는 파일 이름만 사용 (경로 제외)
+
         db_filename = os.path.basename(DB_FILE)
         file_metadata = {'name': db_filename}
         media = MediaFileUpload(DB_FILE, mimetype='application/x-sqlite3')
@@ -264,4 +264,4 @@ class SyncWorker(QThread):
                 fields='id'
             ).execute()
         
-        self.finished.emit("success", "DB file successfully uploaded to cloud.") 
+        self.finished.emit("success", "DB file successfully uploaded to cloud.")
