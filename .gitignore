@@ -12,3 +12,4 @@ wheels/
 *.spec
 win/
 mac/
+dist/
