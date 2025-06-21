@@ -3,11 +3,9 @@ import os
 
 def get_db_path():
     if getattr(sys, 'frozen', False):
-        # PyInstaller로 빌드된 실행파일인 경우 - 모든 플랫폼에서 Documents 폴더 사용
         documents_dir = os.path.expanduser('~/Documents')
         return os.path.join(documents_dir, '.youtube_analysis.db')
     else:
-        # 개발 환경에서는 현재 디렉토리에 저장
         return 'youtube_analysis.db'
 
 DB_FILE = get_db_path()
