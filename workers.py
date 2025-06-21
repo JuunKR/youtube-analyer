@@ -196,11 +196,14 @@ class SyncWorker(QThread):
     
     def run(self):
         try:
+            if self.direction == 'upload' and not os.path.exists(DB_FILE):
+                self.finished.emit("skip", "No local DB file to upload.")
+                return
+            
             self.db_manager = DatabaseManager(DB_FILE)
             creds = self.get_credentials()
             service = build('drive', 'v3', credentials=creds)
             
-            # Google Drive에서는 파일 이름만 사용 (경로 제외)
             db_filename = os.path.basename(DB_FILE)
             response = service.files().list(
                 q=f"name='{db_filename}' and trashed=false", 
@@ -242,10 +245,6 @@ class SyncWorker(QThread):
         self.finished.emit("success", "DB file successfully downloaded from cloud.")
 
     def _handle_upload(self, service, files):
-        if not os.path.exists(DB_FILE):
-            self.finished.emit("skip", "No local DB file to upload.")
-            return
-        
         # Google Drive에 업로드할 때는 파일 이름만 사용 (경로 제외)
         db_filename = os.path.basename(DB_FILE)
         file_metadata = {'name': db_filename}
