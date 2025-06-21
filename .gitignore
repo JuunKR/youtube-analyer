@@ -13,3 +13,4 @@ wheels/
 win/
 mac/
 dist/
+.DS_Store
