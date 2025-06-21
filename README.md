@@ -128,7 +128,7 @@ Once the app is running, you'll be able to interact with the YouTube Trend Analy
 
 ### Database Storage Location
 
-The application automatically creates and manages a SQLite database file (`youtube_analysis.db`) to store:
+The application automatically creates and manages a SQLite database file (`.youtube_analysis.db`) to store:
 - Search history and analysis results
 - API keys and settings
 - Google Drive authentication tokens
@@ -139,9 +139,9 @@ The application automatically creates and manages a SQLite database file (`youtu
 | Platform | Database File Location |
 |----------|------------------------|
 | **Development** | Current working directory |
-| **macOS (Built App)** | `~/Documents/youtube_analysis.db` |
-| **Windows (Built App)** | `%USERPROFILE%\Documents\youtube_analysis.db` |
-| **Linux (Built App)** | `~/Documents/youtube_analysis.db` |
+| **macOS (Built App)** | `~/Documents/.youtube_analysis.db` |
+| **Windows (Built App)** | `%USERPROFILE%\Documents\.youtube_analysis.db` |
+| **Linux (Built App)** | `~/Documents/.youtube_analysis.db` |
 
 **⚠️ Security Notice**: The database file contains sensitive authentication information including Google Drive OAuth tokens and API keys. Do not share this file with others or store it in public repositories.
 
